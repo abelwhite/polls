@@ -1,0 +1,96 @@
+{{template "base" .}}
+{{define "content"}}
+<header>
+  <nav class="container">
+    <div>LOGO</div>
+    <div>NAVIGATION</div>
+  </nav>
+  <div class="header-container">
+    <div class="header-container-inner">
+      <h1>Keep the lines of communication open with your loved ones.</h1>
+      <p>
+        The smart approach to having relationships with people you love and want
+        to keep in your life. Tailored to your personal tastes and emotional
+        needs
+      </p>
+      <a href="#" class="btn">Start the journey</a>
+    </div>
+  </div>
+</header>
+{{ end }}
+
+{{define "css"}}
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: "Rubik", sans-serif;
+    color: #444;
+  }
+
+  .container {
+    margin: 0 auto;
+    width: 1200px;
+  }
+
+  .header-container {
+    width: 1200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .header-container-inner {
+    width: 50%;
+  }
+
+  header {
+    height: 100vh;
+    background-image: linear-gradient(
+        rgba(34, 34, 34, 0.6),
+        rgba(34, 34, 34, 0.6)
+      ),
+      url("/static/img/hero.jpg");
+    background-size: cover;
+    color: #fff;
+  }
+
+  nav {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 32px;
+  }
+
+  h1 {
+    font-size: 52px;
+    margin-bottom: 32px;
+    line-height: 1.05;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  .btn:link,
+  .btn:visited {
+    font-size: 20;
+    font-weight: 600;
+    background-color: #e67e22;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 16px 32px;
+    border-radius: 9px;
+  }
+</style>
+
+{{ end }}

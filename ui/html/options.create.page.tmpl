@@ -1,0 +1,23 @@
+{{template "base" .}}
+{{define "content"}}
+<div>
+  <div>
+    <h1>Add your poll options</h1>
+  </div>
+  <form action="/options/create" method="POST">
+    <div>
+      <label for="poll_option_1">Option 1:</label>
+      <input type="text" id="poll_option_1" name="option_1" /> <br />
+      <label for="poll_option_2">Option 2:</label>
+      <input type="text" id="poll_option_2" name="option_2" /><br />
+      <label for="poll_option_3">Option 3:</label>
+      <input type="text" id="poll_option_3" name="option_3" /><br />
+      <label for="poll_option_4">Option 4:</label>
+      <input type="text" id="poll_option_4" name="option_4" /><br />
+    </div>
+    <div>
+      <input type="submit" value="Create options" />
+    </div>
+  </form>
+</div>
+{{ end }}

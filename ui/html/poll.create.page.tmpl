@@ -1,0 +1,17 @@
+{{template "base" .}}
+{{define "content"}}
+<div>
+  <div>
+    <h1>Create a poll</h1>
+  </div>
+  <form action="/poll/create" method="POST">
+    <div>
+      <label for="poll_question">Question</label><br />
+      <input type="text" id="poll_question" name="new_question" />
+    </div>
+    <div>
+      <input type="submit" value="Create question" />
+    </div>
+  </form>
+</div>
+{{ end }}

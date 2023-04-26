@@ -1,0 +1,34 @@
+{{template "base" .}}
+{{define "content"}}
+<div>
+  <div>
+    <h1>{{.Question.Body}}</h1>
+  </div>
+  <form action="/poll/reply" method="POST">
+    <div>
+      <input type="radio" id="angry" name="emotion" value="angry" />
+      <label for="angry">angry</label><br />
+      <input type="radio" id="upset" name="emotion" value="angry" />
+      <label for="upset">upset</label><br />
+      <input type="radio" id="great" name="emotion" value="angry" />
+      <label for="great">great</label><br />
+      <input
+        type="radio"
+        id="out_of_control"
+        name="emotion"
+        value="out of control"
+      />
+      <label for="out_of_control">out of control</label><br />
+    </div>
+    <div>
+      <input type="submit" value="Submit response" />
+      <input
+        type="hidden"
+        id="question_id"
+        name="id"
+        value="{{.Question.QuestionID}}"
+      />
+    </div>
+  </form>
+</div>
+{{ end }}

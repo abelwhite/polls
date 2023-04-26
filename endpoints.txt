@@ -1,0 +1,29 @@
+Method    URL pattern     Handler                  Action
+
+GET      /                home                     displays the hero section
+GET      /about           about                    displays the about page
+GET      /poll/reply      pollReplyShow            display the poll to the user
+POST     /poll/reply      pollReplySubmit          saves the user poll response
+GET      /poll/success    pollSuccessShow          displays a thank you message to the
+                                                   user after a successful poll submisison
+GET      /poll/create     pollCreateShow           allows the user to create a new poll 
+POST     /poll/create     pollCreateSubmit         saves the poll the user created
+GET      /options/create  optionsCreateShow        allows the user to create their own 
+                                                   poll options
+POST     /options/create  optionsCreateSubmit      saves the options that the user created
+
+GET      /user/signup     userSignup
+POST     /user/signup     userSignupSubmit
+GET      /user/login      userLogin
+POST     /user/login      userLoginSubmit
+POST     /user/logout     userLogoutSubmit 
+
+
+userSignup
+-----
+id serial PRIMARY KEY
+created_at
+user_name NOT NULL
+email citext UNIQUE NOT NULL
+password_hash bytea NOT NULL
+activated bool NOT NULL DEFAULT
