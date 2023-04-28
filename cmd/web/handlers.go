@@ -127,15 +127,45 @@ func (app *application) userSignupSubmit(w http.ResponseWriter, r *http.Request)
 			RenderTemplate(w, "signup.page.tmpl", nil)
 		}
 		app.sessionManager.Put(r.Context(), "flash", "Signup Was successful")
-		//http.Redirect(w, r, "/users/login", http.StatusSeeOther)
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 	}
 }
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello"))
+	flash := app.sessionManager.PopString(r.Context(), "flash")
+	//render
+	data := &templateData{ //putting flash into template data
+		Flash: flash,
+	}
+	RenderTemplate(w, "login.page.tmpl", data)
 }
 func (app *application) userLoginSubmit(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello"))
+	r.ParseForm()
+	email := r.PostForm.Get("email")
+	password := r.PostForm.Get("password")
+	//lets write the data to the table
+	id, err := app.users.Authenticate(email, password)
+	if err != nil {
+		if errors.Is(err, models.ErrInvalidCredentials) {
+			RenderTemplate(w, "login.page.tmpl", nil)
+		}
+		return
+	}
+	//add the users to the session cookie
+	err = app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		return
+	}
+	//add an authenticate entry
+	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
+	http.Redirect(w, r, "/poll/reply", http.StatusSeeOther)
+
 }
 func (app *application) userLogoutSubmit(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello"))
+	err := app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		return
+	}
+	app.sessionManager.Remove(r.Context(), "authenticatedUserID")
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+
 }
