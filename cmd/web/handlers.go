@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -117,18 +118,19 @@ func (app *application) userSignup(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) userSignupSubmit(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	name := r.PostForm.Get("name") //"name" is the name of the form
+	name := r.PostForm.Get("name")
 	email := r.PostForm.Get("email")
 	password := r.PostForm.Get("password")
-	//lets write the data to the table
+	//write the data to the table
 	err := app.users.Insert(name, email, password)
+	log.Println(err)
 	if err != nil {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			RenderTemplate(w, "signup.page.tmpl", nil)
 		}
-		app.sessionManager.Put(r.Context(), "flash", "Signup Was successful")
-		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 	}
+	app.sessionManager.Put(r.Context(), "flash", "Signup was successfil")
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
 }
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	flash := app.sessionManager.PopString(r.Context(), "flash")
