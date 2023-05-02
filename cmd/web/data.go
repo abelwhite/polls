@@ -6,6 +6,7 @@ import (
 )
 
 type templateData struct {
-	Question *models.Question
-	Flash string  //flash is the key
+	Question  *models.Question
+	Flash     string //flash is the key
+	CSRFToken string
 }

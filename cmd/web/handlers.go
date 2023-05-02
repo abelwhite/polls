@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/abelwhite/poll/internal/models"
+	"github.com/justinas/nosurf"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +91,11 @@ func (app *application) pollCreateSubmit(w http.ResponseWriter, r *http.Request)
 }
 
 func (app *application) optionsCreateShow(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "options.create.page.tmpl", nil)
+
+	data := &templateData{
+		CSRFToken: nosurf.Token(r),
+	}
+	RenderTemplate(w, "options.create.page.tmpl", data)
 }
 
 func (app *application) optionsCreateSubmit(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +116,8 @@ func (app *application) userSignup(w http.ResponseWriter, r *http.Request) {
 	flash := app.sessionManager.PopString(r.Context(), "flash")
 	//render
 	data := &templateData{ //putting flash into template data
-		Flash: flash,
+		Flash:     flash,
+		CSRFToken: nosurf.Token(r),
 	}
 	RenderTemplate(w, "signup.page.tmpl", data)
 }
@@ -125,6 +131,7 @@ func (app *application) userSignupSubmit(w http.ResponseWriter, r *http.Request)
 	err := app.users.Insert(name, email, password)
 	log.Println(err)
 	if err != nil {
+
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			RenderTemplate(w, "signup.page.tmpl", nil)
 		}
@@ -136,7 +143,8 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	flash := app.sessionManager.PopString(r.Context(), "flash")
 	//render
 	data := &templateData{ //putting flash into template data
-		Flash: flash,
+		Flash:     flash,
+		CSRFToken: nosurf.Token(r),
 	}
 	RenderTemplate(w, "login.page.tmpl", data)
 }
@@ -148,7 +156,13 @@ func (app *application) userLoginSubmit(w http.ResponseWriter, r *http.Request) 
 	id, err := app.users.Authenticate(email, password)
 	if err != nil {
 		if errors.Is(err, models.ErrInvalidCredentials) {
-			RenderTemplate(w, "login.page.tmpl", nil)
+			flash := app.sessionManager.PopString(r.Context(), "flash")
+			//render
+			data := &templateData{ //putting flash into template data
+				Flash:     flash,
+				CSRFToken: nosurf.Token(r),
+			}
+			RenderTemplate(w, "login.page.tmpl", data)
 		}
 		return
 	}

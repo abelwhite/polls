@@ -1,6 +1,7 @@
 {{template "base" .}}
 {{define "content"}}
 <form action="/user/login" method="POST" novalidate>
+  <input type="hidden" name="csrf_token" value="{{.CSRFToken}}"/> <!--noSurf will check the form and get the value with the one created-->
   <div>
     <label>Email:</label>
     <input type="email" name="email" />

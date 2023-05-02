@@ -5,6 +5,8 @@
     <h1>{{.Question.Body}}</h1>
   </div>
   <form action="/poll/reply" method="POST">
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}"/> <!--noSurf will check the form and get the value with the one created-->
+
     <div>
       <input type="radio" id="angry" name="emotion" value="angry" />
       <label for="angry">angry</label><br />
